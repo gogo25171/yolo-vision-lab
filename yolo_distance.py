@@ -3,8 +3,8 @@ from ultralytics import YOLO
 from distance_calculator import DistanceCalculator
 import config
 
-# Load the YOLOv8 model
-model = YOLO(r'D:\Téléchargements\yolo11n-seg.pt')
+# Load the YOLO model
+model = YOLO(config.YOLO_MODEL_PATH)
 
 # Initialize distance calculator with known object dimensions
 distance_calculator = DistanceCalculator(

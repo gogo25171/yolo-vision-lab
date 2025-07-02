@@ -1,3 +1,7 @@
+# Configuration du modèle YOLO
+YOLO_MODEL_PATH = r'D:\Téléchargements\yolo12x'
+
+# Configuration des sources d'entrée
 CCTV_URL = "your_cctv_url"
 IMAGE_FILE = "your_image_file_path"
 VIDEO_FILE = "D:\Téléchargements\📡 Columbus Circle - New York - USA - Webcam Live Cam HD.mp4"

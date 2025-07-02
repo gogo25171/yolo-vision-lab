@@ -26,7 +26,13 @@ pip install -r requirements.txt
 
 ### Modèle YOLO
 
-Le modèle YOLOv11n-seg sera téléchargé automatiquement lors de la première utilisation.
+Merci de spécifier l'emplacement du modèle YOLO dans le fichier `config.py` en définissant la variable `YOLO_MODEL_PATH`. Par exemple :
+
+```python
+YOLO_MODEL_PATH = "chemin/vers/votre/yolovX.pt"
+```
+
+Assurez-vous que le chemin pointe vers le fichier du modèle YOLOvX que vous souhaitez utiliser.
 
 ## 🎮 Utilisation
 
@@ -42,7 +48,7 @@ Le programme vous propose 3 options :
 
 1. **URL CCTV/Webcam** - Pour les flux en direct
 2. **Fichier image** - Pour analyser une image
-3. **Fichier vidéo** - Pour analyser une vidéo
+3. **Fichier vidéo** - Pour analyser une vidéo (Testé avec des vidéos locales)
 
 ### Contrôles
 
@@ -201,10 +207,12 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 
 ## 🙏 Remerciements
 
-- [Ultralytics](https://ultralytics.com/) pour YOLOv11
+- [Ultralytics](https://ultralytics.com/) pour YOLO
 - [OpenCV](https://opencv.org/) pour le traitement d'images
 - Merci à [omukesh](https://github.com/omukesh/yolov8_distance_calculator), auteur du projet original dont ce dépôt est un fork.
 
 ## PS
 
-Ce projet a été réalisé en grande partie avec l'aide de GitHub Copilot dans Visual Studio Code, une intelligence artificielle d'assistance à la génération de code.
+- Ce projet a été réalisé en grande partie avec l'aide de GitHub Copilot dans Visual Studio Code en mode agent et avec le model Claude Sonnet 4, une intelligence artificielle d'assistance à la génération de code.
+
+- Je n'ai pas encore vérifié la logique de calcul de distance du projet d'origine dont j'ai réalisé le fork.
