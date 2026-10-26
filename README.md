@@ -1,121 +1,103 @@
 # 🧪 YOLO Vision Lab
 
-> **Refonte en cours (v0.3, branche `refonte/vision-lab`)** : le dépôt devient un *laboratoire* de projets de
-> vision, faciles à tester et à brancher sur ses outils. Voir [TODO.md](TODO.md) pour l'état exact.
->
-> ```bash
-> python -m vision_lab                  # liste des projets
-> python -m vision_lab doctor           # vérifie l'installation (GPU, paquets, logiciels)
-> python -m vision_lab distance_vitesse samples/videos/street_ljubljana.mp4 --api --stream rtmp://…
-> python -m vision_lab solutions heatmap samples/videos/crosswalk_toronto.mp4
-> python -m vision_lab football setup --videos && python -m vision_lab football samples/football/0bfacc_0.mp4
-> ```
->
-> | Projet | Dossier | État |
-> |---|---|---|
-> | Distance & vitesse (+ plaques, zones, objets statiques) | [`projets/distance_vitesse`](projets/distance_vitesse) | ✅ |
-> | Solutions Ultralytics (comptage, heatmap, parking, sport…) | [`projets/solutions`](projets/solutions) | ✅ |
-> | Football (d'après roboflow/sports) | [`projets/football`](projets/football) | 🚧 |
->
-> Intégrations communes à tous les projets : **API** REST/WebSocket/MJPEG (`--api`), **webhooks** (`--webhook`),
-> **MQTT** (`--mqtt`), **diffusion YouTube/RTMP** (`--stream`). Python **3.14** recommandé.
-
-## Projet Distance & vitesse (ex-Traffic Vision)
-
 [![CI](https://github.com/gogo25171/yolo-vision-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/gogo25171/yolo-vision-lab/actions/workflows/ci.yml)
 [![Docs](https://img.shields.io/badge/docs-mkdocs-blue)](https://gogo25171.github.io/yolo-vision-lab/)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
-![Python](https://img.shields.io/badge/python-3.10--3.12-blue)
+![Python](https://img.shields.io/badge/python-3.14_(3.10+)-blue)
 ![YOLO26](https://img.shields.io/badge/YOLO-26-purple)
 
-Analyse vidéo avec **YOLO26** : détection, suivi, **distance**, **vitesse**, **plaques d'immatriculation**
-(multi-pays, formats français) et **comptage par zones**, pour une caméra CCTV en temps réel ou une vidéo enregistrée.
+**Un laboratoire de vision par ordinateur** pour comprendre, tester et brancher sur ses propres outils des
+projets de vision : ceux des équipes [Ultralytics](https://ultralytics.com/) et [Roboflow](https://roboflow.com/),
+les nôtres et ceux de la communauté. Ils sont **mis à jour sur les dernières versions** (Python 3.14, YOLO26)
+et utilisables **sur toute plateforme** (Windows, Linux avec ou sans GPU, macOS, Docker).
 
-![Démonstration](docs/assets/street.jpg)
+> 🚧 **Refonte en cours** (v0.3) : l'état exact et les prochaines étapes sont dans [TODO.md](TODO.md).
+> Priorité suivante : une interface web pour lancer les projets sans ligne de commande.
 
-## ✨ Fonctionnalités
+## 📦 Projets
 
-- 🔍 **Détection + suivi** : personnes, véhicules, animaux ; identifiant stable par objet (ByteTrack / BoT-SORT)
-- ⚡ **Deux modes** : `fast` (CCTV, webcam, temps réel) et `accurate` (vidéo enregistrée, précision maximale)
-- 📏 **Distance** à partir de la hauteur réelle des objets et du champ de vision de la caméra
-- 🏎️ **Vitesse** estimée en continu, fiable avec une calibration du sol
-- 🔢 **Plaques** : lecture multi-pays (fast-alpr), formats France SIV (`AB-123-CD`) et FNI validés et corrigés
-- 🚲 **Cyclistes / motards** : la personne et son vélo comptent pour un seul objet
-- 🟦 **Zones et lignes** : occupation, entrées, franchissements par sens ; éditeur de zones
-- 🧠 **Vocabulaire ouvert** (YOLOE) : décrire en texte ce qu'il faut détecter
-- 🐳 **Docker** (GPU) avec flux annoté dans le navigateur
-- 📊 **Rapports** : vidéo annotée, CSV par objet, journal d'événements, résumé JSON
-
-## 🚀 Démarrage rapide
-
-```bash
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128   # GPU NVIDIA
-pip install -r requirements.txt -r projets/distance_vitesse/requirements.txt
-cp .env.example .env
-python scripts/download_samples.py                                                 # vidéos de test libres
-
-python -m vision_lab distance_vitesse samples/videos/street_ljubljana.mp4                       # temps réel, fenêtre
-python -m vision_lab distance_vitesse samples/videos/parking_cctv.mp4 --mode accurate --zones zones/parking_cctv.json
-```
-
-Ou avec Docker : `docker compose up --build` puis <http://localhost:8080>.
-
-## ⚙️ Configuration
-
-Tout se règle dans `.env` (voir [`.env.example`](.env.example)) ou en ligne de commande :
-
-```text
-python -m vision_lab distance_vitesse [source] [--mode fast|accurate] [--model POIDS] [--view window|web|none]
-                         [--zones ZONES.json] [--calibration CALIB.json] [--classes "a:1.7,b"]
-                         [--no-plates] [--save | --no-save]
-```
-
-| Mode | Modèle | Entrée | Usage | FPS (RTX 4060, 1080p) |
+| Projet | Ce qu'il fait | État | Utilisation | Documentation technique |
 |---|---|---|---|---|
-| `fast` | yolo26s | 640 px | CCTV, webcam, RTSP | ~30-37 |
-| `accurate` | yolo26x | 1280 px | Vidéos enregistrées | ~11-17 |
-
-## 📚 Documentation
-
-Documentation complète (MkDocs) : **<https://gogo25171.github.io/yolo-vision-lab/>**, ou en local :
+| [**Distance & vitesse**](projets/distance_vitesse) | Distance et vitesse des objets, objets statiques, plaques d'immatriculation (FR + multi-pays), zones de comptage | ✅ | [Démarrage](docs/guide/demarrage.md) · [Zones](docs/fonctionnalites/zones.md) · [Plaques](docs/fonctionnalites/plaques.md) | [Mesures](docs/fonctionnalites/mesures.md) · [Modèles](docs/fonctionnalites/modeles.md) · [Classes](docs/fonctionnalites/classes.md) · [Architecture](docs/projet/architecture.md) |
+| [**Solutions Ultralytics**](projets/solutions) | Les 15 solutions officielles : comptage, heatmap, file d'attente, parking, sport, floutage… | ✅ | [`cli.py`](projets/solutions/cli.py) (exemples en tête du fichier) | [Ultralytics Solutions](https://docs.ultralytics.com/solutions/) |
+| [**Football**](projets/football) | Joueurs, ballon, arbitres, équipes, vue radar du terrain | 🚧 | [`cli.py`](projets/football/cli.py) | [roboflow/sports](https://github.com/roboflow/sports/tree/main/examples/soccer) (code repris sous licence MIT) |
 
 ```bash
-pip install -r requirements-docs.txt
-mkdocs serve
+python -m vision_lab                      # liste des projets
+python -m vision_lab <projet> --help      # options d'un projet
 ```
 
-| | |
-|---|---|
-| [Démarrage](docs/guide/demarrage.md) · [Matériel](docs/guide/materiel.md) · [Configuration](docs/guide/configuration.md) · [Docker](docs/guide/docker.md) | Guide |
-| [Modèles](docs/fonctionnalites/modeles.md) · [Classes](docs/fonctionnalites/classes.md) · [Distance et vitesse](docs/fonctionnalites/mesures.md) · [Plaques](docs/fonctionnalites/plaques.md) · [Zones](docs/fonctionnalites/zones.md) | Fonctionnalités |
-| [Architecture](docs/projet/architecture.md) · [Données de test](docs/projet/donnees-test.md) · [Conformité](docs/projet/conformite.md) · [TODO](TODO.md) | Projet |
+## 🔌 Commun à tous les projets
 
-## 📁 Structure
+| Fonction | Option | Documentation |
+|---|---|---|
+| Affichage : fenêtre, page web, sans affichage | `--view window\|web\|none` | [Configuration](docs/guide/configuration.md) |
+| API REST + WebSocket + flux vidéo MJPEG | `--api` | [`vision_lab/api.py`](vision_lab/api.py) · `/docs` une fois lancée |
+| Webhooks (n8n, Node-RED, Home Assistant…) | `--webhook URL` | [`vision_lab/events.py`](vision_lab/events.py) |
+| MQTT (domotique, automates, équipements) | `--mqtt HÔTE` | [`vision_lab/events.py`](vision_lab/events.py) |
+| Diffusion en direct (YouTube, Twitch, RTMP) | `--stream rtmp://…` | [`vision_lab/outputs.py`](vision_lab/outputs.py) |
+| Éditeur de zones et de lignes | `python -m vision_lab zones <source>` | [Zones](docs/fonctionnalites/zones.md) |
+| Vérification de l'installation | `python -m vision_lab doctor [projet]` | [`vision_lab/doctor.py`](vision_lab/doctor.py) |
+
+## 🚀 Installation
+
+```bash
+git clone https://github.com/gogo25171/yolo-vision-lab.git && cd yolo-vision-lab
+git lfs pull                                             # vidéos d'exemple (ou : python scripts/download_samples.py)
+
+# Python 3.14 recommandé, puis PyTorch selon la machine :
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128   # GPU NVIDIA
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu     # sans GPU
+
+pip install -r requirements.txt                          # socle commun
+pip install -r projets/<projet>/requirements.txt         # dépendances propres à chaque projet
+cp .env.example .env
+python -m vision_lab doctor                              # indique ce qui manque (pilote, paquet, logiciel)
+```
+
+Avec Docker (GPU NVIDIA) : `docker compose up --build`, puis <http://localhost:8080> et l'API sur <http://localhost:8000/docs>.
+
+## 📚 Documentation générale
+
+| Sujet | Lien |
+|---|---|
+| Matériel conseillé (GPU, caméras, performances) | [docs/guide/materiel.md](docs/guide/materiel.md) |
+| Configuration (`.env`) | [docs/guide/configuration.md](docs/guide/configuration.md) |
+| Docker | [docs/guide/docker.md](docs/guide/docker.md) |
+| Données de test et licences | [docs/projet/donnees-test.md](docs/projet/donnees-test.md) |
+| Conformité (RGPD, AI Act, licences) | [docs/projet/conformite.md](docs/projet/conformite.md) |
+| Contribuer, ajouter un projet | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Feuille de route | [TODO.md](TODO.md) · [CHANGELOG.md](CHANGELOG.md) |
+
+Site complet (MkDocs) : <https://gogo25171.github.io/yolo-vision-lab/>, ou en local :
+`pip install -r requirements-docs.txt && mkdocs serve`.
+
+## 📁 Organisation du dépôt
 
 ```text
-├── projets/distance_vitesse/         # paquet principal (python -m vision_lab distance_vitesse)
-├── zones/                  # zones de comptage d'exemple
-├── samples/                # vidéos de test (Git LFS) + SOURCES.md
-├── scripts/                # téléchargement des échantillons
-├── tests/                  # tests unitaires (sans GPU)
-├── docs/                   # documentation MkDocs
-├── Dockerfile, docker-compose.yml
-└── .env.example
+├── vision_lab/        # socle commun : sources, affichage, API, webhooks, MQTT, diffusion, doctor
+├── projets/           # un dossier par projet (code, requirements.txt)
+│   ├── distance_vitesse/
+│   ├── solutions/
+│   └── football/
+├── zones/             # zones de comptage d'exemple
+├── samples/           # vidéos de test libres de droits (Git LFS) + SOURCES.md
+├── docs/              # documentation MkDocs
+├── tests/             # tests unitaires (sans GPU)
+└── scripts/           # outils (téléchargement des échantillons…)
 ```
 
 ## ⚠️ Avertissements
 
-- Distances et vitesses sont des **estimations**, pas des mesures homologuées.
-- Images de personnes et plaques sont des **données personnelles** : voir [Conformité](docs/projet/conformite.md).
+- Distances, vitesses et comptages sont des **estimations**, pas des mesures homologuées.
+- Images de personnes et plaques d'immatriculation sont des **données personnelles** : voir [Conformité](docs/projet/conformite.md).
 
-## 📄 Licence
+## 📄 Licence et remerciements
 
-[AGPL-3.0-or-later](LICENSE), imposée par la licence d'[Ultralytics](https://ultralytics.com/license).
-Les vidéos de test ont leurs propres licences ([`samples/SOURCES.md`](samples/SOURCES.md)).
+[AGPL-3.0-or-later](LICENSE), imposée par la licence d'[Ultralytics](https://ultralytics.com/license). Les projets
+repris gardent leur licence d'origine (ex. [roboflow/sports](https://github.com/roboflow/sports), MIT) et les
+vidéos de test ont la leur ([`samples/SOURCES.md`](samples/SOURCES.md)).
 
-## 🙏 Remerciements
-
-- [Ultralytics](https://ultralytics.com/) (YOLO26, YOLOE), [fast-alpr](https://github.com/ankandrew/fast-alpr)
-  et [fast-plate-ocr](https://github.com/ankandrew/fast-plate-ocr), [OpenCV](https://opencv.org/)
-- Projet né au tout départ d'un fork de `omukesh/yolov8_distance_calculator` mais qui c'est transformer en un hub.
-- Développé avec l'aide d'assistants IA (GitHub Copilot, Claude).
+Merci à [Ultralytics](https://ultralytics.com/), [Roboflow](https://roboflow.com/),
+[fast-alpr](https://github.com/ankandrew/fast-alpr) et [OpenCV](https://opencv.org/). Projet né d'un fork de
+`omukesh/yolov8_distance_calculator`, développé avec l'aide d'assistants IA (GitHub Copilot, Claude).
