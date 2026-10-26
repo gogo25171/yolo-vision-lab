@@ -1,4 +1,38 @@
-.venv
-.vscode
-.mypy_cache
-__pycache__
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# Configuration locale (secrets, URL de caméras)
+.env
+
+# Modèles téléchargés / exportés
+models/
+*.pt
+*.engine
+*.onnx
+*_openvino_model/
+
+# Résultats
+output/
+runs/
+
+# Échantillons : originaux téléchargés (les versions découpées sont suivies via LFS)
+samples/.cache/
+
+# Documentation générée
+site/
+
+# Football : vidéos DFL (licence Kaggle, ne pas redistribuer)
+samples/football/

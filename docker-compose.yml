@@ -1,0 +1,36 @@
+# Lancement :  docker compose up --build
+# Flux annoté : http://localhost:8080   API : http://localhost:8000/docs
+# Autre projet / source :
+#   docker compose run --rm --service-ports vision-lab solutions heatmap samples/videos/crosswalk_toronto.mp4
+services:
+  vision-lab:
+    build: .
+    image: yolo-vision-lab:latest
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      VIEW: web            # pas d'écran dans le conteneur : flux MJPEG dans le navigateur
+      API_ENABLED: "true"
+    command: ["distance_vitesse"]
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      - ./samples:/app/samples:ro
+      - ./zones:/app/zones
+      - ./output:/app/output
+      - models:/app/models          # poids YOLO téléchargés (persistants)
+      - model-cache:/root/.cache    # modèles plaques, SigLIP (football)
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: "no"
+
+volumes:
+  models:
+  model-cache:

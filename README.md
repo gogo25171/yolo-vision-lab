@@ -1,218 +1,121 @@
-# 🎯 YOLO Distance Calculator
+# 🧪 YOLO Vision Lab
 
-Un calculateur de distance intelligent utilisant YOLOv11 pour détecter et mesurer la distance des objets en temps réel à partir de vidéos, images ou flux CCTV.
+> **Refonte en cours (v0.3, branche `refonte/vision-lab`)** : le dépôt devient un *laboratoire* de projets de
+> vision, faciles à tester et à brancher sur ses outils. Voir [TODO.md](TODO.md) pour l'état exact.
+>
+> ```bash
+> python -m vision_lab                  # liste des projets
+> python -m vision_lab doctor           # vérifie l'installation (GPU, paquets, logiciels)
+> python -m vision_lab distance_vitesse samples/videos/street_ljubljana.mp4 --api --stream rtmp://…
+> python -m vision_lab solutions heatmap samples/videos/crosswalk_toronto.mp4
+> python -m vision_lab football setup --videos && python -m vision_lab football samples/football/0bfacc_0.mp4
+> ```
+>
+> | Projet | Dossier | État |
+> |---|---|---|
+> | Distance & vitesse (+ plaques, zones, objets statiques) | [`projets/distance_vitesse`](projets/distance_vitesse) | ✅ |
+> | Solutions Ultralytics (comptage, heatmap, parking, sport…) | [`projets/solutions`](projets/solutions) | ✅ |
+> | Football (d'après roboflow/sports) | [`projets/football`](projets/football) | 🚧 |
+>
+> Intégrations communes à tous les projets : **API** REST/WebSocket/MJPEG (`--api`), **webhooks** (`--webhook`),
+> **MQTT** (`--mqtt`), **diffusion YouTube/RTMP** (`--stream`). Python **3.14** recommandé.
+
+## Projet Distance & vitesse (ex-Traffic Vision)
+
+[![CI](https://github.com/gogo25171/yolo_distance_calculator/actions/workflows/ci.yml/badge.svg)](https://github.com/gogo25171/yolo_distance_calculator/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-mkdocs-blue)](https://gogo25171.github.io/yolo_distance_calculator/)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
+![Python](https://img.shields.io/badge/python-3.10--3.12-blue)
+![YOLO26](https://img.shields.io/badge/YOLO-26-purple)
+
+Analyse vidéo avec **YOLO26** : détection, suivi, **distance**, **vitesse**, **plaques d'immatriculation**
+(multi-pays, formats français) et **comptage par zones**, pour une caméra CCTV en temps réel ou une vidéo enregistrée.
+
+![Démonstration](docs/assets/street.jpg)
 
 ## ✨ Fonctionnalités
 
-- 🔍 **Détection multi-objets** : Détecte personnes, voitures, motos, vélos, bus, camions, etc.
-- 📏 **Calcul de distance** : Calcule automatiquement la distance des objets détectés
-- 🎨 **Couleurs personnalisables** : Chaque type d'objet a sa propre couleur
-- 📹 **Sources multiples** : Supporte vidéos, images et flux CCTV/webcam
-- ⚙️ **Configuration flexible** : Personnalisation facile via le fichier config.py
-- 🚀 **Interface interactive** : Sélection simple de la source d'entrée
+- 🔍 **Détection + suivi** : personnes, véhicules, animaux ; identifiant stable par objet (ByteTrack / BoT-SORT)
+- ⚡ **Deux modes** : `fast` (CCTV, webcam, temps réel) et `accurate` (vidéo enregistrée, précision maximale)
+- 📏 **Distance** à partir de la hauteur réelle des objets et du champ de vision de la caméra
+- 🏎️ **Vitesse** estimée en continu, fiable avec une calibration du sol
+- 🔢 **Plaques** : lecture multi-pays (fast-alpr), formats France SIV (`AB-123-CD`) et FNI validés et corrigés
+- 🚲 **Cyclistes / motards** : la personne et son vélo comptent pour un seul objet
+- 🟦 **Zones et lignes** : occupation, entrées, franchissements par sens ; éditeur de zones
+- 🧠 **Vocabulaire ouvert** (YOLOE) : décrire en texte ce qu'il faut détecter
+- 🐳 **Docker** (GPU) avec flux annoté dans le navigateur
+- 📊 **Rapports** : vidéo annotée, CSV par objet, journal d'événements, résumé JSON
 
-## 🚀 Installation
-
-### Prérequis
-
-- Python (testé avec Python 3.12)
-- pip
-
-### Installation des dépendances
+## 🚀 Démarrage rapide
 
 ```bash
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128   # GPU NVIDIA
 pip install -r requirements.txt
+cp .env.example .env
+python scripts/download_samples.py                                                 # vidéos de test libres
+
+python -m vision_lab distance_vitesse samples/videos/street_ljubljana.mp4                       # temps réel, fenêtre
+python -m vision_lab distance_vitesse samples/videos/parking_cctv.mp4 --mode accurate --zones zones/parking_cctv.json
 ```
 
-### Modèle YOLO
-
-Merci de spécifier l'emplacement du modèle YOLO dans le fichier `config.py` en définissant la variable `YOLO_MODEL_PATH`. Par exemple :
-
-```python
-YOLO_MODEL_PATH = "chemin/vers/votre/yolovX.pt"
-```
-
-Assurez-vous que le chemin pointe vers le fichier du modèle YOLOvX que vous souhaitez utiliser.
-
-## 🎮 Utilisation
-
-### Lancement du programme
-
-```bash
-python yolo_distance.py
-```
-
-### Menu interactif
-
-Le programme vous propose 3 options :
-
-1. **URL CCTV/Webcam** - Pour les flux en direct
-2. **Fichier image** - Pour analyser une image
-3. **Fichier vidéo** - Pour analyser une vidéo (Testé avec des vidéos locales)
-
-### Contrôles
-
-- **Images** : Appuyez sur n'importe quelle touche pour fermer
-- **Vidéos/CCTV** : Appuyez sur 'q' pour quitter
+Ou avec Docker : `docker compose up --build` puis <http://localhost:8080>.
 
 ## ⚙️ Configuration
 
-### Fichier `config.py`
+Tout se règle dans `.env` (voir [`.env.example`](.env.example)) ou en ligne de commande :
 
-#### Sources d'entrée
-
-```python
-CCTV_URL = "votre_url_cctv"
-IMAGE_FILE = "chemin/vers/votre/image.jpg"
-VIDEO_FILE = "chemin/vers/votre/video.mp4"
+```text
+python -m vision_lab distance_vitesse [source] [--mode fast|accurate] [--model POIDS] [--view window|web|none]
+                         [--zones ZONES.json] [--calibration CALIB.json] [--classes "a:1.7,b"]
+                         [--no-plates] [--save | --no-save]
 ```
 
-#### Classes détectées
+| Mode | Modèle | Entrée | Usage | FPS (RTX 4060, 1080p) |
+|---|---|---|---|---|
+| `fast` | yolo26s | 640 px | CCTV, webcam, RTSP | ~30-37 |
+| `accurate` | yolo26x | 1280 px | Vidéos enregistrées | ~11-17 |
 
-```python
-CLASS_INFO = {
-    0: ("Person", 0.4),        # Personne - 0.4m de largeur moyenne
-    2: ("Car", 1.8),           # Voiture - 1.8m de largeur moyenne
-    3: ("Motorcycle", 0.8),    # Moto - 0.8m de largeur moyenne
-    # ... autres classes
-}
-```
+## 📚 Documentation
 
-#### Couleurs personnalisées (format BGR)
-
-```python
-CLASS_COLORS = {
-    0: (0, 255, 0),      # Vert pour les personnes
-    2: (0, 0, 255),      # Rouge pour les voitures
-    3: (255, 255, 0),    # Cyan pour les motos
-    # ... autres couleurs
-}
-```
-
-## 🎯 Classes détectées par défaut
-
-| Objet | ID | Couleur | Largeur moyenne |
-|-------|----|---------|-----------------|
-| 👤 Person | 0 | Vert | 0.4m |
-| 🚴 Bicycle | 1 | Bleu | 0.6m |
-| 🚗 Car | 2 | Rouge | 1.8m |
-| 🏍️ Motorcycle | 3 | Cyan | 0.8m |
-| ✈️ Airplane | 4 | Violet | 35.0m |
-| 🚌 Bus | 5 | Magenta | 2.5m |
-| 🚂 Train | 6 | Orange | 3.0m |
-| 🚛 Truck | 7 | Jaune | 2.4m |
-| 🛥️ Boat | 8 | Bleu clair | 3.0m |
-| 🖥️ Monitor | 62 | Blanc | 0.5m |
-
-## 🔧 Personnalisation
-
-### Ajouter une nouvelle classe
-
-```python
-# Dans config.py
-CLASS_INFO[15] = ("Cat", 0.3)  # Chat avec largeur 0.3m
-CLASS_COLORS[15] = (0, 100, 200)  # Couleur orange
-```
-
-### Modifier une classe existante
-
-```python
-# Changer la largeur des voitures
-CLASS_INFO[2] = ("Car", 2.0)  # Nouvelle largeur 2.0m
-
-# Changer la couleur des voitures
-CLASS_COLORS[2] = (255, 100, 0)  # Nouvelle couleur
-```
-
-## 📁 Structure du projet
-
-```
-yolov8_distance_calculator/
-├── yolo_distance.py           # Script principal
-├── distance_calculator.py     # Logique de calcul de distance
-├── config.py                  # Configuration
-├── requirements.txt           # Dépendances
-└── README.md                 # Documentation
-```
-
-## 🛠️ Fonctionnement technique
-
-### Calcul de distance
-
-La distance est calculée en utilisant la formule :
-
-```
-Distance = (Largeur_réelle × Distance_focale) / Largeur_perçue_en_pixels
-```
-
-### Distance focale
-
-Calculée automatiquement ou utilise une valeur par défaut si aucune source CCTV n'est disponible.
-
-## 🎨 Couleurs BGR
-
-Format utilisé par OpenCV (Bleu, Vert, Rouge) :
-
-- Rouge : `(0, 0, 255)`
-- Vert : `(0, 255, 0)`
-- Bleu : `(255, 0, 0)`
-- Cyan : `(255, 255, 0)`
-- Magenta : `(255, 0, 255)`
-- Jaune : `(0, 255, 255)`
-
-## 🚀 Exemples d'utilisation
-
-### Analyse d'une image
+Documentation complète (MkDocs) : **<https://gogo25171.github.io/yolo_distance_calculator/>**, ou en local :
 
 ```bash
-python yolo_distance.py
-# Choisir option 2
-# Entrer le chemin de votre image
+pip install -r requirements-docs.txt
+mkdocs serve
 ```
 
-### Flux webcam
+| | |
+|---|---|
+| [Démarrage](docs/guide/demarrage.md) · [Matériel](docs/guide/materiel.md) · [Configuration](docs/guide/configuration.md) · [Docker](docs/guide/docker.md) | Guide |
+| [Modèles](docs/fonctionnalites/modeles.md) · [Classes](docs/fonctionnalites/classes.md) · [Distance et vitesse](docs/fonctionnalites/mesures.md) · [Plaques](docs/fonctionnalites/plaques.md) · [Zones](docs/fonctionnalites/zones.md) | Fonctionnalités |
+| [Architecture](docs/projet/architecture.md) · [Données de test](docs/projet/donnees-test.md) · [Conformité](docs/projet/conformite.md) · [TODO](TODO.md) | Projet |
 
-```bash
-python yolo_distance.py
-# Choisir option 1
-# Entrer 0 pour la webcam par défaut
+## 📁 Structure
+
+```text
+├── projets/distance_vitesse/         # paquet principal (python -m vision_lab distance_vitesse)
+├── zones/                  # zones de comptage d'exemple
+├── samples/                # vidéos de test (Git LFS) + SOURCES.md
+├── scripts/                # téléchargement des échantillons
+├── tests/                  # tests unitaires (sans GPU)
+├── docs/                   # documentation MkDocs
+├── Dockerfile, docker-compose.yml
+└── .env.example
 ```
 
-### Vidéo locale
+## ⚠️ Avertissements
 
-```bash
-python yolo_distance.py
-# Choisir option 3
-# Entrer le chemin de votre vidéo
-```
+- Distances et vitesses sont des **estimations**, pas des mesures homologuées.
+- Images de personnes et plaques sont des **données personnelles** : voir [Conformité](docs/projet/conformite.md).
 
-## 🔍 Dépannage
+## 📄 Licence
 
-### Problèmes courants
-
-## 📋 Dépendances
-
-- `opencv-python` - Traitement d'images et vidéos
-- `ultralytics` - Modèles YOLO
-- `numpy` - Calculs numériques
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! N'hésitez pas à :
-
-- Signaler des bugs
-- Proposer de nouvelles fonctionnalités
-- Améliorer la documentation
-- Ajouter de nouvelles classes d'objets
+[AGPL-3.0-or-later](LICENSE), imposée par la licence d'[Ultralytics](https://ultralytics.com/license).
+Les vidéos de test ont leurs propres licences ([`samples/SOURCES.md`](samples/SOURCES.md)).
 
 ## 🙏 Remerciements
 
-- [Ultralytics](https://ultralytics.com/) pour YOLO
-- [OpenCV](https://opencv.org/) pour le traitement d'images
-- Merci à [omukesh](https://github.com/omukesh/yolov8_distance_calculator), auteur du projet original dont ce dépôt est un fork.
-
-## PS
-
-- Ce projet a été réalisé en grande partie avec l'aide de GitHub Copilot dans Visual Studio Code en mode agent et avec le model Claude Sonnet 4, une intelligence artificielle d'assistance à la génération de code.
-
-- Je n'ai pas encore vérifié la logique de calcul de distance du projet d'origine dont j'ai réalisé le fork.
+- [Ultralytics](https://ultralytics.com/) (YOLO26, YOLOE), [fast-alpr](https://github.com/ankandrew/fast-alpr)
+  et [fast-plate-ocr](https://github.com/ankandrew/fast-plate-ocr), [OpenCV](https://opencv.org/)
+- Projet né au tout départ d'un fork de `omukesh/yolov8_distance_calculator` mais qui c'est transformer en un hub.
+- Développé avec l'aide d'assistants IA (GitHub Copilot, Claude).

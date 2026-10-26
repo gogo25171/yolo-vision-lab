@@ -1,0 +1,104 @@
+site_name: Traffic Vision
+site_description: Détection, suivi, distance, vitesse, plaques d'immatriculation et comptage par zones avec YOLO26.
+site_author: gogo25171
+site_url: https://gogo25171.github.io/yolo_distance_calculator/
+repo_url: https://github.com/gogo25171/yolo_distance_calculator
+repo_name: gogo25171/yolo_distance_calculator
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; 2026 gogo25171 — AGPL-3.0
+
+theme:
+  name: material
+  language: fr
+  icon:
+    logo: material/cctv
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Mode sombre
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Mode clair
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+    - toc.follow
+
+plugins:
+  - search:
+      lang: fr
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - def_list
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
+
+nav:
+  - Accueil: index.md
+  - Guide:
+      - Démarrage rapide: guide/demarrage.md
+      - Matériel: guide/materiel.md
+      - Configuration (.env): guide/configuration.md
+      - Docker: guide/docker.md
+      - Sorties et rapports: guide/sorties.md
+  - Fonctionnalités:
+      - Modes et modèles YOLO: fonctionnalites/modeles.md
+      - Classes détectées: fonctionnalites/classes.md
+      - Distance et vitesse: fonctionnalites/mesures.md
+      - Plaques d'immatriculation: fonctionnalites/plaques.md
+      - Zones et comptage: fonctionnalites/zones.md
+  - Projet:
+      - Architecture: projet/architecture.md
+      - Données de test: projet/donnees-test.md
+      - Conformité (RGPD, licences): projet/conformite.md
+      - Feuille de route: projet/feuille-de-route.md
+      - Contribuer: projet/contribuer.md
+      - Journal des modifications: projet/changelog.md

@@ -1,0 +1,23 @@
+name: 💡 Idée / fonctionnalité
+description: Proposer une amélioration (voir d'abord TODO.md)
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Besoin
+      description: Quel problème cette fonctionnalité résout-elle ? Dans quelle scène (CCTV, drone, parking…) ?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Proposition
+      description: Comment l'imaginez-vous ? Modèle, paramètre `.env`, sortie attendue…
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Données personnelles
+      options:
+        - label: La fonctionnalité ne vise pas à identifier ou catégoriser des personnes (visage, genre, origine…)
+          required: true

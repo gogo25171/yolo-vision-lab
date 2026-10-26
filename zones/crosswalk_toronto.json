@@ -1,0 +1,9 @@
+{
+  "zones": [
+    {"name": "Passage pieton", "polygon": [[0.0, 0.62], [1.0, 0.62], [1.0, 1.0], [0.0, 1.0]], "classes": ["Personne"]},
+    {"name": "Chaussee", "polygon": [[0.0, 0.52], [1.0, 0.52], [1.0, 0.68], [0.0, 0.68]], "classes": ["Voiture", "Camion", "Bus", "Cycliste"]}
+  ],
+  "lines": [
+    {"name": "Traversee", "points": [[0.5, 0.5], [0.5, 1.0]], "classes": ["Personne"]}
+  ]
+}

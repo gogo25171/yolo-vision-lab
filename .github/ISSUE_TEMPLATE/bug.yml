@@ -1,0 +1,31 @@
+name: 🐛 Bug
+description: Quelque chose ne fonctionne pas comme prévu
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Que se passe-t-il ?
+      description: Comportement observé et comportement attendu.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Commande et configuration
+      description: Commande lancée et contenu du `.env` (retirez les mots de passe et URL privées).
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Message d'erreur complet
+      render: text
+  - type: input
+    id: env
+    attributes:
+      label: Environnement
+      placeholder: "Windows 11, RTX 4060, Python 3.12, ultralytics 8.4.x, Docker oui/non"
+    validations:
+      required: true

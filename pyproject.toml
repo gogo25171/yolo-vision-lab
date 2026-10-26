@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yolo-vision-lab"
+version = "0.3.0.dev0"
+description = "Laboratoire de vision par ordinateur : projets YOLO26 et autres, mis à jour et faciles à intégrer (API, webhooks, MQTT, YouTube)."
+readme = "README.md"
+license = "AGPL-3.0-or-later"
+requires-python = ">=3.10"
+authors = [{ name = "gogo25171" }]
+keywords = ["yolo", "yolo26", "computer-vision", "cctv", "alpr", "football", "tracking", "lab"]
+classifiers = ["Programming Language :: Python :: 3.14"]
+dependencies = [
+    "ultralytics>=8.4.0",
+    "opencv-python>=4.10",
+    "numpy>=1.26",
+    "python-dotenv>=1.0",
+    "lap>=0.5",
+    "shapely>=2.0",
+    "truststore>=0.10",
+]
+
+[project.optional-dependencies]
+plates = ["fast-alpr[onnx]>=0.4.0"]
+api = ["fastapi>=0.115", "uvicorn>=0.30"]
+mqtt = ["paho-mqtt>=2.0"]
+football = ["supervision>=0.31", "transformers>=4.45", "umap-learn>=0.5", "scikit-learn>=1.5",
+            "sentencepiece", "protobuf", "tqdm", "gdown>=5.0"]
+docs = ["mkdocs-material>=9.5"]
+dev = ["ruff>=0.6", "pytest>=8", "httpx"]
+
+[project.scripts]
+vision-lab = "vision_lab.__main__:main"
+
+[project.urls]
+Repository = "https://github.com/gogo25171/yolo_distance_calculator"
+Documentation = "https://gogo25171.github.io/yolo_distance_calculator/"
+
+[tool.setuptools.packages.find]
+include = ["vision_lab*", "projets*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+extend-exclude = ["projets/football/sports", "projets/football/_upstream_main.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]

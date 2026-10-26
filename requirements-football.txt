@@ -1,0 +1,9 @@
+# Projet football (en plus de requirements.txt)
+supervision>=0.31
+transformers>=4.45          # SigLIP (classification des équipes)
+umap-learn>=0.5
+scikit-learn>=1.5
+sentencepiece
+protobuf
+tqdm
+gdown>=5.0                  # python -m vision_lab football setup

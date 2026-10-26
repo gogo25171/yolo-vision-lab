@@ -1,0 +1,17 @@
+name: Liens
+
+# Vérifie chaque semaine les liens de la documentation (sources, modèles, licences).
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --exclude localhost --exclude 127.0.0.1 "**/*.md"
+          fail: true
