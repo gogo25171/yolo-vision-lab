@@ -28,7 +28,7 @@
 
 ```bash
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
-pip install -r requirements.txt
+pip install -r requirements.txt -r projets/distance_vitesse/requirements.txt
 python scripts/download_samples.py
 python -m vision_lab distance_vitesse samples/videos/parking_cctv.mp4 --mode accurate --zones zones/parking_cctv.json
 ```

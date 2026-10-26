@@ -50,7 +50,7 @@ Analyse vidéo avec **YOLO26** : détection, suivi, **distance**, **vitesse**, *
 
 ```bash
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128   # GPU NVIDIA
-pip install -r requirements.txt
+pip install -r requirements.txt -r projets/distance_vitesse/requirements.txt
 cp .env.example .env
 python scripts/download_samples.py                                                 # vidéos de test libres
 

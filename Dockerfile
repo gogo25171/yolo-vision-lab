@@ -21,8 +21,11 @@ RUN apt-get update \
 WORKDIR /app
 
 RUN pip install torch torchvision --index-url ${TORCH_INDEX}
-COPY requirements.txt requirements-football.txt ./
-RUN pip install -r requirements.txt -r requirements-football.txt \
+COPY requirements.txt ./
+COPY projets/distance_vitesse/requirements.txt req-distance_vitesse.txt
+COPY projets/solutions/requirements.txt req-solutions.txt
+COPY projets/football/requirements.txt req-football.txt
+RUN pip install -r requirements.txt -r req-distance_vitesse.txt -r req-solutions.txt -r req-football.txt \
     && pip install --force-reinstall --no-deps opencv-python-headless
 
 COPY vision_lab ./vision_lab

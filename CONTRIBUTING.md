@@ -10,7 +10,7 @@ cd yolo_distance_calculator
 git lfs install && git lfs pull          # échantillons vidéo
 python -m venv .venv && source .venv/bin/activate   # Windows : .venv\Scripts\activate
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
-pip install -r requirements.txt -r requirements-docs.txt pytest ruff
+pip install -r requirements.txt -r projets/distance_vitesse/requirements.txt -r requirements-docs.txt pytest ruff
 ```
 
 ## Avant d'ouvrir une pull request

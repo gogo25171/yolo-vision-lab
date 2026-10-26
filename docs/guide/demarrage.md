@@ -17,7 +17,7 @@
     py -3.12 -m venv .venv
     .venv\Scripts\Activate.ps1
     pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
-    pip install -r requirements.txt
+    pip install -r requirements.txt -r projets/distance_vitesse/requirements.txt
     copy .env.example .env
     ```
 
@@ -29,7 +29,7 @@
     python3.12 -m venv .venv
     source .venv/bin/activate
     pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128  # (1)!
-    pip install -r requirements.txt
+    pip install -r requirements.txt -r projets/distance_vitesse/requirements.txt
     cp .env.example .env
     ```
 

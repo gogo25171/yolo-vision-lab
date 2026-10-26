@@ -1,18 +1,13 @@
-# YOLO Vision Lab — socle + projets distance_vitesse et solutions. Python 3.14 recommandé (3.10 minimum).
-# Installation :
-#   1. PyTorch : https://pytorch.org/get-started/locally/
-#      GPU NVIDIA : pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
-#      CPU seul   : pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-#   2. pip install -r requirements.txt
-#   3. pip install --force-reinstall --no-deps opencv-python   (fast-alpr installe la version sans fenêtres)
-#   4. python -m vision_lab doctor
-ultralytics>=8.4.0          # YOLO26 / YOLOE-26 / Solutions
+# YOLO Vision Lab — socle commun à tous les projets. Python 3.14 recommandé (3.10 minimum).
+# Chaque projet a ses propres dépendances : projets/<projet>/requirements.txt
+#   1. PyTorch : GPU NVIDIA  pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+#                CPU seul    pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#   2. pip install -r requirements.txt -r projets/distance_vitesse/requirements.txt
+#   3. python -m vision_lab doctor
+ultralytics>=8.4.0          # YOLO26 / YOLOE-26 / Solutions (utilisé par tous les projets)
 opencv-python>=4.10
 numpy>=1.26
 python-dotenv>=1.0
-lap>=0.5                    # suivi ByteTrack / BoT-SORT
-shapely>=2.0                # régions des Solutions Ultralytics
-fast-alpr[onnx]>=0.4.0      # plaques d'immatriculation (détection + OCR multi-pays)
 truststore>=0.10            # certificats système (proxy / antivirus qui inspecte le HTTPS)
 fastapi>=0.115              # API REST / WebSocket / MJPEG
 uvicorn>=0.30

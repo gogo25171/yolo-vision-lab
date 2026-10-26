@@ -1,0 +1,2 @@
+# Projet solutions (en plus du socle : pip install -r requirements.txt)
+shapely>=2.0                # régions des Solutions Ultralytics

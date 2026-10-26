@@ -30,6 +30,18 @@ Feuille de route de **YOLO Vision Lab**. Les priorités sont dans l'ordre ; coch
 - [ ] `.dockerignore` a été remplacé par le modèle de `docker init` : y remettre `models/`, `samples/`,
       `output/`, `site/`, `docs/` (contexte de build énorme sinon)
 
+## 0. Organisation du dépôt (à faire en premier à la reprise)
+
+- [x] Dépendances : socle en racine (`requirements.txt`), propres à chaque projet dans
+      `projets/<projet>/requirements.txt`
+- [ ] **Passer à [uv](https://docs.astral.sh/uv/)** : `pyproject.toml` avec un *workspace* (racine = socle,
+      un membre par projet), `uv.lock` commité, `uv sync --extra <projet>`, index PyTorch CPU/CUDA choisi
+      selon le matériel (`[tool.uv.sources]`), `uv run vision-lab …` ; adapter Dockerfile et CI (`astral-sh/setup-uv`)
+- [ ] Paramètres par projet : un `projets/<projet>/.env.example` et un `README.md` (ce que fait le projet,
+      prérequis, paramètres, exemples) ; la racine ne garde que les paramètres communs (affichage, API,
+      webhooks, MQTT, diffusion, MODELS_DIR, OUTPUT_DIR) ; `settings.py` de chaque projet lit sa section
+- [ ] Docs : page « Prérequis » (socle + par projet) générée depuis ces fichiers
+
 ## 1. Interface du laboratoire (PRIORITÉ)
 
 Point d'entrée central pour tout le monde : `python -m vision_lab ui` (ou Docker) ouvre une page web.

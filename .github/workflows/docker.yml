@@ -7,7 +7,7 @@ on:
     branches: [main]
     tags: ["v*"]
   pull_request:
-    paths: ["Dockerfile", "requirements*.txt", "vision_lab/**", "projets/**"]
+    paths: ["Dockerfile", "requirements*.txt", "vision_lab/**", "projets/**"]  # inclut projets/*/requirements.txt
 
 permissions:
   contents: read

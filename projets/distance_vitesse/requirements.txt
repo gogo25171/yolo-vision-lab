@@ -1,0 +1,3 @@
+# Projet distance_vitesse (en plus du socle : pip install -r requirements.txt)
+lap>=0.5                    # suivi ByteTrack / BoT-SORT
+fast-alpr[onnx]>=0.4.0      # plaques d'immatriculation (puis : pip install --force-reinstall --no-deps opencv-python)
