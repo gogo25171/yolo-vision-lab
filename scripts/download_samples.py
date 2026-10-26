@@ -22,7 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SAMPLES_DIR = ROOT / "samples"
 CACHE_DIR = SAMPLES_DIR / ".cache"
-USER_AGENT = "traffic-vision-samples/1.0 (https://github.com/gogo25171/yolo_distance_calculator)"
+USER_AGENT = "traffic-vision-samples/1.0 (https://github.com/gogo25171/yolo-vision-lab)"
 
 
 @dataclass(frozen=True)

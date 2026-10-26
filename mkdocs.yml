@@ -1,9 +1,9 @@
-site_name: Traffic Vision
+site_name: YOLO Vision Lab
 site_description: Détection, suivi, distance, vitesse, plaques d'immatriculation et comptage par zones avec YOLO26.
 site_author: gogo25171
-site_url: https://gogo25171.github.io/yolo_distance_calculator/
-repo_url: https://github.com/gogo25171/yolo_distance_calculator
-repo_name: gogo25171/yolo_distance_calculator
+site_url: https://gogo25171.github.io/yolo-vision-lab/
+repo_url: https://github.com/gogo25171/yolo-vision-lab
+repo_name: gogo25171/yolo-vision-lab
 edit_uri: edit/main/docs/
 copyright: Copyright &copy; 2026 gogo25171 — AGPL-3.0
 

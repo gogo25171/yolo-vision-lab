@@ -5,8 +5,8 @@ Merci de votre intérêt ! Les contributions sont les bienvenues : bugs, idées,
 ## Mettre en place l'environnement
 
 ```bash
-git clone https://github.com/gogo25171/yolo_distance_calculator.git
-cd yolo_distance_calculator
+git clone https://github.com/gogo25171/yolo-vision-lab.git
+cd yolo-vision-lab
 git lfs install && git lfs pull          # échantillons vidéo
 python -m venv .venv && source .venv/bin/activate   # Windows : .venv\Scripts\activate
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128

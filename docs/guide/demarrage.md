@@ -12,8 +12,8 @@
 === "Windows (PowerShell)"
 
     ```powershell
-    git clone https://github.com/gogo25171/yolo_distance_calculator.git
-    cd yolo_distance_calculator
+    git clone https://github.com/gogo25171/yolo-vision-lab.git
+    cd yolo-vision-lab
     py -3.12 -m venv .venv
     .venv\Scripts\Activate.ps1
     pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
@@ -24,8 +24,8 @@
 === "Linux / macOS"
 
     ```bash
-    git clone https://github.com/gogo25171/yolo_distance_calculator.git
-    cd yolo_distance_calculator
+    git clone https://github.com/gogo25171/yolo-vision-lab.git
+    cd yolo-vision-lab
     python3.12 -m venv .venv
     source .venv/bin/activate
     pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128  # (1)!

@@ -35,8 +35,8 @@ dev = ["ruff>=0.6", "pytest>=8", "httpx"]
 vision-lab = "vision_lab.__main__:main"
 
 [project.urls]
-Repository = "https://github.com/gogo25171/yolo_distance_calculator"
-Documentation = "https://gogo25171.github.io/yolo_distance_calculator/"
+Repository = "https://github.com/gogo25171/yolo-vision-lab"
+Documentation = "https://gogo25171.github.io/yolo-vision-lab/"
 
 [tool.setuptools.packages.find]
 include = ["vision_lab*", "projets*"]

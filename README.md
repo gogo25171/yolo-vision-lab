@@ -22,8 +22,8 @@
 
 ## Projet Distance & vitesse (ex-Traffic Vision)
 
-[![CI](https://github.com/gogo25171/yolo_distance_calculator/actions/workflows/ci.yml/badge.svg)](https://github.com/gogo25171/yolo_distance_calculator/actions/workflows/ci.yml)
-[![Docs](https://img.shields.io/badge/docs-mkdocs-blue)](https://gogo25171.github.io/yolo_distance_calculator/)
+[![CI](https://github.com/gogo25171/yolo-vision-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/gogo25171/yolo-vision-lab/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-mkdocs-blue)](https://gogo25171.github.io/yolo-vision-lab/)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.10--3.12-blue)
 ![YOLO26](https://img.shields.io/badge/YOLO-26-purple)
@@ -77,7 +77,7 @@ python -m vision_lab distance_vitesse [source] [--mode fast|accurate] [--model P
 
 ## 📚 Documentation
 
-Documentation complète (MkDocs) : **<https://gogo25171.github.io/yolo_distance_calculator/>**, ou en local :
+Documentation complète (MkDocs) : **<https://gogo25171.github.io/yolo-vision-lab/>**, ou en local :
 
 ```bash
 pip install -r requirements-docs.txt
