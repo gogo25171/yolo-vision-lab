@@ -25,8 +25,8 @@ Feuille de route de **YOLO Vision Lab**. Les priorités sont dans l'ordre ; coch
 - [ ] Docker : rebuild non testé (moteur Docker Desktop en erreur 500 pendant la session → redémarrer
       Docker Desktop puis `docker compose build`)
 - [ ] MQTT : non testé faute de broker (`docker run -p 1883:1883 eclipse-mosquitto`)
-- [ ] Dépôt GitHub : renommer en `yolo-vision-lab` (`gh repo rename yolo-vision-lab`), mettre la
-      description, activer GitHub Pages (Settings > Pages > GitHub Actions), fusionner la branche
+- [x] Dépôt GitHub renommé en `yolo-vision-lab`, description et sujets mis à jour, dossier local renommé
+- [ ] Activer GitHub Pages (Settings > Pages > GitHub Actions) et fusionner la branche dans `main`
 - [ ] `.dockerignore` a été remplacé par le modèle de `docker init` : y remettre `models/`, `samples/`,
       `output/`, `site/`, `docs/` (contexte de build énorme sinon)
 
